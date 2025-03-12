@@ -2,12 +2,14 @@ import { useState } from 'react';
 
 const PetForm = (props) => {
   
-  const [formData, setFormData] = useState({
+  const initialState = {
     name: '',
     age: '',
     breed: '',
-  });
-
+  }
+  const [formData, setFormData] = useState(
+    props.selected ? props.selected : initialState
+  )
   
   const handleChange = (evt) => {
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
@@ -23,7 +25,7 @@ const PetForm = (props) => {
  
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="name"> Name </label>
         <input
           id="name"
@@ -47,7 +49,9 @@ const PetForm = (props) => {
           value={formData.breed}
           onChange={handleChange}
         />
-        <button type="submit">Add New Pet</button>
+        <button type="submit">
+          {props.selected ? 'Update Pet' : 'Add New Pet'}
+        </button>
       </form>
     </div>
   );
